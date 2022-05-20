@@ -90,11 +90,10 @@ between 1 and 99 with the following commands:
 
 ```sh
 sudo configureSimplex.sh 8
-sudo simplexctl start
 ```
 
 Here we are requesting 8 instances. The `configureSimplex.sh`
-script stops simplex, so in the next line we start it again.
+script will start and enable the new simplex instances for you.
 
 By default, **simplex** takes over port numbers 39101,
 39102, 39103... (one port per instance you have). If these

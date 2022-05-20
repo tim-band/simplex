@@ -68,6 +68,5 @@ Vagrant.configure("2") do |config|
     apt-get install -y ./simplex.deb
     sed "s!^\\(\\s*\\)server_name\\s\\s*_\\s*;\\s*\\$!\\1server_name _;\\n\\1include /etc/nginx/app.d/*.conf;!" -i  /etc/nginx/sites-available/default
     configureSimplex.sh 8
-    simplexctl start
   SHELL
 end

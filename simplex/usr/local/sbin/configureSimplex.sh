@@ -35,8 +35,21 @@ else
 newstart="$2"
 fi
 newend=$(expr ${newstart} + ${newcount} - 1)
-${scfile} stop
+
+# Stop and disable any old instances we no longer need
+for p in $(seq ${start} ${end})
+do
+ if [ "(" "${p}" -lt "${newstart}" ")" -o "(" "${newend}" -lt "${p}" ")" ]
+ then
+  systemctl stop simplex@${p}
+  systemctl disable simplex@${p}
+ fi
+done
+
+# Fix start and end variables in simplexctl script
 sed -e 's/^start=\(.*\)$/start='${newstart}/ -e 's/^end=\(.*\)$/end='${newend}/ -i ${scfile}
+
+# Write out nginx file
 echo 'upstream simplex {' > ${nxfile}
 echo '  least_conn;' >> ${nxfile}
 for p in $(seq ${newstart} ${newend})
@@ -44,4 +57,8 @@ do
 echo "  server 127.0.0.1:${p};" >> ${nxfile}
 done
 echo '}' >> ${nxfile}
+
+# Start and enable new instances
+${scfile} start
+${scfile} enable
 systemctl try-restart nginx
