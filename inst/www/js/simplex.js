@@ -1232,14 +1232,7 @@ function export2IsoplotR(){
 	.then(
 	    () => {
 		hide('.show4processing');
-		let fname = prompt("Please enter a file name", "IsoplotR.json");
-		if (fname != null){
-		    document.getElementById('fname').setAttribute(
-			"href","data:text/plain," + JSON.stringify(json)
-		    );
-		    document.getElementById('fname').setAttribute("download",fname);
-		    document.getElementById('fname').click();
-		}
+		shinylight.passToOther('/isoplotr', json);
 	    },
 	    err => alert(err)
 	);
