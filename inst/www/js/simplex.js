@@ -55,15 +55,7 @@ function builtin(){
 }
 
 function start() {
-    // This will be moved into shinylight.initialize()
-    new Promise((resolve, reject) => {
-        rrpc.initialize(
-	    () => resolve(),
-	    error => reject(error)
-	);
-    }).then(() =>
-        welcome()
-    );
+    shinylight.initialize().then(welcome);
 }
 
 function selectedButton() {
